@@ -1,0 +1,5 @@
+libraries/
+modes/
+templates/
+simplePokedexWithAPI/data/*.json
+simplePokedex/data/*.json
