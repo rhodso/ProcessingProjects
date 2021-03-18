@@ -1,13 +1,18 @@
 class Ball {
+  
+  //Position and velocity
   float x;
   float y;
 
   float xVel;
   float yVel;
 
+  //Is the ball being held
   boolean isHeld;
 
   Ball(float _x, float _y) {
+    
+    //Set to inital variables
     x = _x;
     y = _y;
 
@@ -18,10 +23,6 @@ class Ball {
   } 
 
   void update() {
-
-
-    //Change the velocity here
-
 
     //Collisions in y
     if (y <= 10 || y >= height-10) {
@@ -45,6 +46,7 @@ class Ball {
       }
     }
 
+    //If the ball is being held, reset velocity
     if (isHeld) {
       xVel = 0;
       yVel = 0;
@@ -64,12 +66,17 @@ class Ball {
     }
   }
 
-  boolean getHeld() { 
-    return isHeld;
+  //Draw the ball
+  void drawBall() {
+    //Ball is a red circle with black outline
+    stroke(0);
+    fill(255, 0, 0);
+    circle(x, y, 15);
   }
-  void setHeld(boolean _isHeld) { 
-    isHeld = _isHeld;
-  }
+
+  //Gettters and setters
+  boolean getHeld() { return isHeld; }
+  void setHeld(boolean _isHeld) { isHeld = _isHeld; }
   
   float getX(){ return x; }
   float getY(){ return y; }
@@ -80,11 +87,5 @@ class Ball {
   void setVel (float _xVel, float _yVel){
     xVel = _xVel;
     yVel = _yVel;
-  }
-
-  void drawBall() {
-    stroke(0);
-    fill(255, 0, 0);
-    circle(x, y, 15);
   }
 }
