@@ -1,4 +1,4 @@
-class Ball {
+class Ball implements Runnable{
   
   //Position and velocity
   float x;
@@ -9,6 +9,10 @@ class Ball {
 
   //Is the ball being held
   boolean isHeld;
+  
+  //Physical properties
+  static final float size = 15;
+  color c;
 
   Ball(float _x, float _y) {
     
@@ -16,32 +20,33 @@ class Ball {
     x = _x;
     y = _y;
 
-    xVel = -2;
-    yVel = 5;
+    xVel = random(-5,5);
+    yVel = random(-5,5);
 
     isHeld = false;
+    
+    c = color((int) random(80,255), (int) random(80,255), (int) random(80,255));
   } 
 
   void update() {
-
     //Collisions in y
-    if (y <= 10 || y >= height-10) {
+    if (y <= size || y >= height-size) {
       if (y <= 0) {
-        y = 10;
+        y = size;
         yVel = abs(yVel)*0.9;
-      } else if (y >= height-10) {
+      } else if (y >= height-size) {
         yVel = (abs(yVel)*0.9) * -1;
-        y = height-10;
+        y = height-size;
       }
     }
 
     //Collisions in x
-    if (x <= 10 || x >= width-10) {
+    if (x <= size || x >= width-size) {
       if (x <= 0) {
-        x = 10;
+        x = size;
         xVel = abs(xVel)*0.9;
-      } else if (x >= width-10) {
-        x = width-10;
+      } else if (x >= width-size) {
+        x = width-size;
         xVel = (abs(xVel)*0.9) * -1;
       }
     }
@@ -70,8 +75,24 @@ class Ball {
   void drawBall() {
     //Ball is a red circle with black outline
     stroke(0);
-    fill(255, 0, 0);
-    circle(x, y, 15);
+    fill(c);
+    circle(x, y, size);
+  }
+  
+  //Handle ball method
+  void handleBall(){
+    if(this.getHeld()){
+       this.setX(mX);
+       this.setY(mY);
+    } else { //Else update normally;
+      this.update();
+    }
+    
+  }
+  
+  //Runnable method
+  public void run(){
+    this.handleBall();
   }
 
   //Gettters and setters
@@ -81,8 +102,13 @@ class Ball {
   float getX(){ return x; }
   float getY(){ return y; }
   
+  float getXVel(){ return xVel; }
+  float getYVel(){ return yVel; }
+  
   void setX(float _x){ x = _x; }
   void setY(float _y){ y = _y; }
+  
+  float getSize(){ return size; }
   
   void setVel (float _xVel, float _yVel){
     xVel = _xVel;
