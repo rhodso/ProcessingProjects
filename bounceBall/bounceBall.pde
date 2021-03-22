@@ -3,6 +3,7 @@ ArrayList<Ball> ballList;
 
 //Control vars
 int keyPressDelayFrame = -1; 
+boolean doRemove = false;
 
 //Mouse X/Y and grab radius for ball
 float mX = 0;
@@ -35,10 +36,18 @@ void draw() {
   for(Ball b : ballList){
     b.drawBall();
   }
+  
+  //For some reason this only removes half the balls, instead of all of them
+  if(doRemove){
+    for(int i = 1; i < ballList.size(); i++){
+      ballList.remove(i);
+    }
+    doRemove = false;
+  }
+  
 }
 
 void keyPressed() {
-  
   //Add short delay between keypresses to mitigate repeats
   if (frameCount > keyPressDelayFrame) {
     keyPressDelayFrame = frameCount + 5;
@@ -57,15 +66,19 @@ void keyPressed() {
     
     //If E is pressed, then pray for your PC and add 500 balls
     if (key == 'e') {
-      for(int i = 0; i < 500; i++){
+      for(int i = 0; i < 100; i++){
           ballList.add(new Ball(50,50));
       }
+    }
+    
+    //Clear balls back to 1
+    if(key == 'y'){
+      doRemove = true;
     }
   }
 }
 
 void mouseDragged() {
-  
   //If the ball is being clicked on with left click
   if (mouseButton == LEFT) {
     

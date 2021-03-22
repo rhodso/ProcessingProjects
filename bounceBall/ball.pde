@@ -11,7 +11,7 @@ class Ball implements Runnable{
   boolean isHeld;
   
   //Physical properties
-  static final float size = 15;
+  static final float size = 16;
   color c;
 
   Ball(float _x, float _y) {
@@ -30,13 +30,16 @@ class Ball implements Runnable{
 
   void update() {
     //Collisions in y
-    if (y <= size || y >= height-size) {
+    if (y <= (size/2) || y >= height-(size/2)) {
       if (y <= 0) {
-        y = size;
-        yVel = abs(yVel)*0.9;
-      } else if (y >= height-size) {
-        yVel = (abs(yVel)*0.9) * -1;
-        y = height-size;
+        y = (size/2);
+        yVel = abs(yVel)*0.8;
+      } else if (y == height-(size/2)){
+        y = height-(size/2);
+        yVel = 0;
+      } else if (y > height-(size/2)) {
+        yVel = (abs(yVel)*0.8) * -1;
+        y = height-(size/2);
       }
     }
 
@@ -44,10 +47,18 @@ class Ball implements Runnable{
     if (x <= size || x >= width-size) {
       if (x <= 0) {
         x = size;
-        xVel = abs(xVel)*0.9;
+        xVel = abs(xVel)*0.8;
       } else if (x >= width-size) {
         x = width-size;
-        xVel = (abs(xVel)*0.9) * -1;
+        xVel = (abs(xVel)*0.8) * -1;
+      }
+    }
+    
+    //Fake the resting collision
+    if(y > height-(size*2)){
+      if(yVel < 0.1 && yVel > 0){
+        yVel = 0;
+        y = height-(size/2);
       }
     }
 
@@ -79,20 +90,14 @@ class Ball implements Runnable{
     circle(x, y, size);
   }
   
-  //Handle ball method
-  void handleBall(){
+  //Runnable method
+  public void run(){
     if(this.getHeld()){
        this.setX(mX);
        this.setY(mY);
     } else { //Else update normally;
       this.update();
     }
-    
-  }
-  
-  //Runnable method
-  public void run(){
-    this.handleBall();
   }
 
   //Gettters and setters
