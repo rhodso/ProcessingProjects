@@ -14,17 +14,23 @@ boolean showInsuffBld;
 int InsuffBldFrame;
 
 void setup() {
+  //Setup window
   size(700, 500);
   imageMode(CORNER);
   frameRate(60);
+
+  //Create list, load image
   bList = setupBuildings();
   CoinCoinIco = loadImage("CoinCoin_Icon.png");
+
+  //Setup control vars
   showInsuffFnd = false;
   InsuffFndFrame = 0;
   showInsuffBld = false;
   InsuffBldFrame = 0;
 }
 void draw() {
+  //Set background and fill, then draw building info
   background(200);
 
   fill(0);
@@ -43,6 +49,11 @@ void draw() {
   text("CoinCoin: " + coinCoin_f, 50, height-40);
   text("HashRate: " + hashRate_f, 50, height-20);
 
+  //Decide if to show errors
+  showInsuffBld = InsuffBldFrame > frameCount; 
+  showInsuffFnd = InsuffFndFrame > frameCount; 
+
+  //Show errors
   if (showInsuffFnd) {
     fill(255, 0, 0);
     text("Insufficient funds", width/2, height-20);
@@ -53,9 +64,6 @@ void draw() {
     text("Insufficient Buildings", width/2, height-40);
   }
 
-  showInsuffBld = InsuffBldFrame > frameCount; 
-  showInsuffFnd = InsuffFndFrame > frameCount; 
-
   //Tick buildings
   if (frameCount % tickRate == 0) {
     for (Building b : bList) {
@@ -64,7 +72,9 @@ void draw() {
   }
 }
 
+//Setup Buildings method
 ArrayList<Building> setupBuildings() {
+  //Create empty list
   ArrayList<Building> bList = new ArrayList<Building>();
 
   /*
@@ -128,6 +138,7 @@ ArrayList<Building> setupBuildings() {
   return bList;
 }
 
+//Update the rate, called when a building is bought or sold
 void updateRate() {
   hashRate = 0;
   for (Building b : bList) {
@@ -135,20 +146,29 @@ void updateRate() {
   }
 }
 
+//Mouse pressed
 void mousePressed() {
   if (mouseX <= 250 && mouseX >= 50 && mouseY <= 350 && mouseY >= 150) {
+    //If clicking the coin
     coinCoins++;
   } else {
+    //Test if clicking on buy or sell button for each building
     for (Building b : bList) {
       //If sell, decrement and give 80% of cost back
       if (b.isSellButtonPressed(mouseX, mouseY)) {
         if (b.getAmount() >= 1) {
+          //If have buildings to sell, then sell
           b.decrementAmount();
           coinCoins += b.getCost() * 0.8;
+
+          //Update rate and building cost
           updateRate();
           b.updateCost();
+
+          //Update warning
           InsuffBldFrame = frameCount - 1;
         } else {
+          //No buildings to sell
           InsuffBldFrame = frameCount + 120;
         }
       }
@@ -156,12 +176,18 @@ void mousePressed() {
       //If buy, check balance, then increment and deduct cost
       if (b.isBuyButtonPressed(mouseX, mouseY)) {
         if (coinCoins >= b.getCost()) {
+          //If have money to buy, then buy
           b.incrementAmount();
           coinCoins -= b.getCost();
+
+          //Update rate and cost
           updateRate();
           b.updateCost();
+
+          //Update warning
           InsuffFndFrame = frameCount - 1;
         } else {
+          //No funds to buy
           InsuffFndFrame = frameCount + 120;
         }
       }

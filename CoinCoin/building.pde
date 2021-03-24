@@ -61,6 +61,7 @@ class Building {
     cost = baseCost * (1+(amount / 1000.0));
   }
   
+  //Test for buy or sell being pressed
   boolean isSellButtonPressed(float _mouseX, float _mouseY) {
     if (_mouseX > x && _mouseX < x+35) {
       if (_mouseY > y+100&& _mouseY < y+125) {
@@ -83,9 +84,9 @@ class Building {
     image = loadImage("data/" + type + ".png");
   }
   
+  //Shortcut for buy/sell
   void incrementAmount(){ amount++; }
   void decrementAmount(){ amount--; }
-  
 
   //Getters and setters
   float getRate() { 
@@ -111,6 +112,7 @@ class Building {
     cost = _cost;
   }
   void setBaseCost( float _baseCost) { 
+    //Set cost and base cost, since this is only called once at setup
     baseCost = cost = _baseCost;
   }
   void setAmount( int _amount) { 
