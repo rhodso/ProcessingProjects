@@ -37,7 +37,7 @@ class Building {
     image(image, x, y, 100, 100);
     
     //Draw the number of buildings, and name + cost
-    text(amount,x+45, y+115);
+    text(amount,x+40, y+115);
     String cost_f = nfc(cost, 2);
     text(type + "\nCost: \n" + cost_f, x, y-30);
     

@@ -90,7 +90,7 @@ ArrayList<Building> setupBuildings() {
   //CPU Miner
   Building CPUMiner = new Building((width/2.5), 100);
   CPUMiner.setType("CPU Miner");
-  CPUMiner.setRate(1);
+  CPUMiner.setRate(0.1);
   CPUMiner.setBaseCost(10);
   CPUMiner.ezGetImage();
   bList.add(CPUMiner);
@@ -98,7 +98,7 @@ ArrayList<Building> setupBuildings() {
   //GPU Miner
   Building GPUMiner = new Building((width/2.5) + 150, 100);
   GPUMiner.setType("GPU Miner");
-  GPUMiner.setRate(5);
+  GPUMiner.setRate(2);
   GPUMiner.setBaseCost(100);
   GPUMiner.ezGetImage();
   bList.add(GPUMiner);
@@ -106,15 +106,15 @@ ArrayList<Building> setupBuildings() {
   //MiningMachine
   Building MiningMachine = new Building((width/2.5) + 300, 100);
   MiningMachine.setType("Mining Machine");
-  MiningMachine.setRate(30);
-  MiningMachine.setBaseCost(500);
+  MiningMachine.setRate(200);
+  MiningMachine.setBaseCost(1000);
   MiningMachine.ezGetImage();
   bList.add(MiningMachine);
 
   //CloudMiner
   Building CloudMiner = new Building((width/2.5), 300);
   CloudMiner.setType("Cloud Miner");
-  CloudMiner.setRate(100);
+  CloudMiner.setRate(2000);
   CloudMiner.setBaseCost(10000);
   CloudMiner.ezGetImage();
   bList.add(CloudMiner);
@@ -122,7 +122,7 @@ ArrayList<Building> setupBuildings() {
   //CryptoJacking Instance
   Building CryptoJacker = new Building((width/2.5)+150, 300);
   CryptoJacker.setType("Cryptojacker Botnet");
-  CryptoJacker.setRate(1000);
+  CryptoJacker.setRate(2000);
   CryptoJacker.setBaseCost(100000);
   CryptoJacker.ezGetImage();
   bList.add(CryptoJacker);
@@ -130,7 +130,7 @@ ArrayList<Building> setupBuildings() {
   //ElonMuskShitpostBot
   Building TwitterBot = new Building((width/2.5)+300, 300);
   TwitterBot.setType("Twitter Bot");
-  TwitterBot.setRate(9999);
+  TwitterBot.setRate(75000);
   TwitterBot.setBaseCost(10000000);
   TwitterBot.ezGetImage();
   bList.add(TwitterBot);
@@ -150,7 +150,7 @@ void updateRate() {
 void mousePressed() {
   if (mouseX <= 250 && mouseX >= 50 && mouseY <= 350 && mouseY >= 150) {
     //If clicking the coin
-    coinCoins++;
+    coinCoins += 0.5;
   } else {
     //Test if clicking on buy or sell button for each building
     for (Building b : bList) {
